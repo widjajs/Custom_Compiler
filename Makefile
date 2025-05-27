@@ -1,5 +1,5 @@
 CXX = g++
-OBJS = main.o tokenizer.o error.o
+BJS = main.o tokenizer.o error.o
 TARGET = main
 DEPS = tokenizer.hpp error.hpp
 

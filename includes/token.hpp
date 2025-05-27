@@ -1,3 +1,5 @@
+#pragma once
+
 #include <sstream>
 #include <string>
 #include <unordered_map>
@@ -62,13 +64,13 @@ static const std::unordered_map<std::string, token_type> identifiers = {
 typedef std::variant<double, std::string, bool, std::monostate> object_literal;
 
 class Token {
+public:
     token_type type;
     std::string token;
     std::variant<double, std::string, bool, std::monostate> literal;
     int line;
     bool has_error;
 
-public:
     // constructor
     Token(token_type type, std::string token, object_literal literal, int line)
         : type(type), token(std::move(token)), literal(std::move(literal)),
