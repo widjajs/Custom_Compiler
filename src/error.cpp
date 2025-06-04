@@ -14,10 +14,11 @@ void report_args(std::string msg, int extra_args) {
     std::cerr << extra_args << " " << msg << std::endl;
 }
 
-void report_syntax(std::string msg) {
-    std::cerr << msg << std::endl;
+void report_expr(int line, std::string msg) {
+    std::cerr << "Expression Error on line " << line << ": " << msg
+              << std::endl;
 }
 
 void report_expr(std::string msg) {
-    std::cerr << msg << std::endl;
+    std::cerr << "Expression Error at end: " << msg << std::endl;
 }

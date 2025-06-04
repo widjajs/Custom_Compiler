@@ -1,7 +1,7 @@
 CXX = g++
-BJS = main.o tokenizer.o error.o
+OBJS = main.o tokenizer.o error.o parser.o
 TARGET = main
-DEPS = tokenizer.hpp error.hpp
+DEPS = tokenizer.hpp error.hpp parser.hpp
 
 %.o: src/%.cpp $(addprefix includes/,$(DEPS))
 	$(CXX) -c $< -o $@

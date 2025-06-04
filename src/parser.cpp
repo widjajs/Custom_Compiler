@@ -1,7 +1,7 @@
 #include "../includes/parser.hpp"
 #include "../includes/error.hpp"
 
-// TODO figure out printing the AST to do bug checking
+#include <iostream>
 
 /*
     expression → equality
@@ -58,12 +58,22 @@ Expr Parser::primary() {
     }
     if (match({OPEN_PAREN})) {
         Expr expr = expression();
-        if (consume().type != CLOSE_PAREN) {
-            report_syntax("Unclosed Parenthesis");
+        Token consumed = consume();
+        if (consumed.type != CLOSE_PAREN) {
+            had_error = true;
+            report_syntax(consumed.line, "Unclosed Parenthesis");
         }
         return std::make_unique<Grouping>(std::move(expr));
     }
-    throw std::runtime_error("Expected Expression");
+    had_error = true;
+    if (!at_end()) {
+        report_expr(tokens.at(cur).line, "Expected Expression Error");
+    } else {
+        report_expr("Expected Expression Error");
+    }
+    // std::monostate() represents error expression in this case
+    // in the context of literals std::monsotate() represents null values
+    return std::monostate();
 }
 
 Expr Parser::unary() {
@@ -79,6 +89,7 @@ Expr Parser::factor() {
     Expr expr = unary();
 
     while (match({DIV, MULT})) {
+        std::cout << "FACTOR" << std::endl;
         Token op = prev();
         Expr right = unary();
         expr = std::make_unique<Binary>(std::move(expr), op, std::move(right));
@@ -92,6 +103,7 @@ Expr Parser::term() {
     Expr expr = factor();
 
     while (match({PLUS, MINUS})) {
+        std::cout << "TERM" << std::endl;
         Token op = prev();
         Expr right = factor();
         expr = std::make_unique<Binary>(std::move(expr), op, std::move(right));
@@ -101,6 +113,7 @@ Expr Parser::term() {
 } /* term() */
 
 Expr Parser::comparison() {
+    std::cout << "COMPARISON" << std::endl;
     // term → factor ( ( "-" | "+" ) factor )*
     Expr expr = term();
 
@@ -115,6 +128,7 @@ Expr Parser::comparison() {
 } /* comparison() */
 
 Expr Parser::equality() {
+    std::cout << "EQUALITY" << std::endl;
     // equality -> comparison (("!=" | "==") comparison)*
     Expr expr = comparison();
 

@@ -7,6 +7,8 @@
 class Parser {
 public:
     explicit Parser(std::vector<Token> tokens) : tokens(std::move(tokens)) {};
+    Expr parse();
+    bool had_error = false;
 
 private:
     int cur = 0;
@@ -19,7 +21,6 @@ private:
     Expr factor();
     Expr unary();
     Expr primary();
-    Expr parse();
 
     bool match(std::initializer_list<token_type>);
     bool at_end();

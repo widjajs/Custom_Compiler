@@ -1,9 +1,2 @@
-(( )) {}
-!*+-== <= !=
-"hello world!
-my name is Bob!
-/* this is 
- * a  //mult
- line comment */
-while@ foreach thishere this
-andor and else false nulll null true false
+(1 == "b") == "c";
+1 == 2 != 3

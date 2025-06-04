@@ -1,4 +1,5 @@
 #include "../includes/error.hpp"
+#include "../includes/parser.hpp"
 #include "../includes/tokenizer.hpp"
 
 #include <fstream>
@@ -17,9 +18,16 @@ void runFile(std::string path) {
 
     Tokenizer tokenizer(contents);
     std::vector<Token> tokens = tokenizer.scan_tokens();
-    // if (!tokenizer.has_error) {
-    for (Token t : tokens) {
-        std::cout << t.to_string() << std::endl;
+
+    for (Token token : tokens) {
+        std::cout << token.to_string() << std::endl;
+    }
+
+    Parser parser(tokens);
+    Expr expression = parser.parse();
+
+    if (!parser.had_error) {
+        std::cout << "YAY" << std::endl;
     }
 }
 

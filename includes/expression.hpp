@@ -8,7 +8,8 @@ struct Literal;
 struct Unary;
 
 using Expr = std::variant<std::unique_ptr<Binary>, std::unique_ptr<Grouping>,
-                          std::unique_ptr<Literal>, std::unique_ptr<Unary>>;
+                          std::unique_ptr<Literal>, std::unique_ptr<Unary>,
+                          std::monostate>;
 
 struct Unary {
     Token op;
