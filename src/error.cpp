@@ -22,3 +22,6 @@ void report_expr(int line, std::string msg) {
 void report_expr(std::string msg) {
     std::cerr << "Expression Error at end: " << msg << std::endl;
 }
+
+void report_type_mismatch(std::string msg) {
+}
