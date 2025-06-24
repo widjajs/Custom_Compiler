@@ -38,7 +38,7 @@ object_literal Interpreter::operator()(std::unique_ptr<Binary> &expr) {
 
     return std::visit(
         overloaded{
-            // handle all expression combos here
+            // numerical ops
             [&](double left, double right) -> object_literal {
                 switch (expr->op.type) {
                     case MINUS:
@@ -67,6 +67,7 @@ object_literal Interpreter::operator()(std::unique_ptr<Binary> &expr) {
                         return std::monostate();
                 }
             },
+            // string ops
             [&](std::string left, std::string right) -> object_literal {
                 switch (expr->op.type) {
                     case PLUS:
@@ -84,6 +85,7 @@ object_literal Interpreter::operator()(std::unique_ptr<Binary> &expr) {
                 }
                 return std::monostate();
             },
+            // bool ops
             [&](bool left, bool right) -> object_literal {
                 switch (expr->op.type) {
                     case EQUAL_EQUAL:
@@ -96,7 +98,7 @@ object_literal Interpreter::operator()(std::unique_ptr<Binary> &expr) {
                         return std::monostate();
                 }
             },
-
+            // null comparisons
             [&](std::monostate left, std::monostate right) -> object_literal {
                 switch (expr->op.type) {
                     case EQUAL_EQUAL:
@@ -109,6 +111,7 @@ object_literal Interpreter::operator()(std::unique_ptr<Binary> &expr) {
                         return std::monostate();
                 }
             },
+            // more null comparisons
             [&](std::monostate left, auto right) -> object_literal {
                 switch (expr->op.type) {
                     case EQUAL_EQUAL:
@@ -120,6 +123,7 @@ object_literal Interpreter::operator()(std::unique_ptr<Binary> &expr) {
                         return std::monostate();
                 }
             },
+            // even more null comparisons
             [&](auto left, std::monostate right) -> object_literal {
                 switch (expr->op.type) {
                     case EQUAL_EQUAL:
@@ -131,6 +135,7 @@ object_literal Interpreter::operator()(std::unique_ptr<Binary> &expr) {
                         return std::monostate();
                 }
             },
+            // throw error invalid expression
             [&](auto left, auto right) -> object_literal {
                 report_expr(expr->op.line, "Invalid Comparison Types");
                 return std::monostate();
