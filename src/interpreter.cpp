@@ -1,17 +1,6 @@
 #include "../includes/interpreter.hpp"
 #include "../includes/error.hpp"
 
-#include <variant>
-
-// overloaded helper
-template <class... Ts> // ... means accept any number of types
-struct overloaded : Ts... {
-    using Ts::operator()...; // ... means to unpack
-};
-
-// deduction guide
-template <class... Ts> overloaded(Ts...) -> overloaded<Ts...>;
-
 object_literal Interpreter::evaluate(Expr &expr) {
     return std::visit(*this, expr);
 } /* evaluate() */
@@ -20,6 +9,7 @@ object_literal Interpreter::operator()(std::unique_ptr<Binary> &expr) {
     auto left = evaluate(expr->left);
     auto right = evaluate(expr->right);
 
+    /*
     // comparison edge case where two things are either error or null
     if (left.index() != right.index()) {
         // both are null
@@ -35,6 +25,7 @@ object_literal Interpreter::operator()(std::unique_ptr<Binary> &expr) {
         }
         return std::monostate();
     }
+    */
 
     return std::visit(
         overloaded{
@@ -145,14 +136,47 @@ object_literal Interpreter::operator()(std::unique_ptr<Binary> &expr) {
 
 object_literal Interpreter::operator()(std::unique_ptr<Unary> &expr) {
     auto right = evaluate(expr->right);
-}
+
+    // clang-format off
+    return std::visit(
+        overloaded{
+            // negating doubles
+            [&](double right) -> object_literal {
+                switch (expr->op.type) {
+                    case MINUS:
+                        return -right;
+                    default:
+                        report_expr(expr->op.line, "Invalid operand");
+                        return std::monostate();
+                }
+            },
+            // negating boolean
+            [&](bool right) -> object_literal {
+                switch (expr->op.type) {
+                    case NOT:
+                        return !right;
+                    default:
+                        report_expr(expr->op.line, "Invalid operand");
+                        return std::monostate();
+                }
+            },
+            // throw error invalid unary expression
+            [&](auto right) -> object_literal {
+                report_expr(expr->op.line, "Invalid Unary Expresion");
+                return std::monostate();
+            }},
+        right);
+    // clang-format on
+} /* operator() - Unary Expression */
 
 object_literal Interpreter::operator()(std::unique_ptr<Grouping> &expr) {
     return evaluate(expr->expr);
-}
+} /* operator() - Grouped Expression */
 
 object_literal Interpreter::operator()(std::unique_ptr<Literal> &expr) {
-}
+    return expr->val;
+} /* operator() - Literals */
 
 object_literal Interpreter::operator()(std::monostate) {
-}
+    return std::monostate();
+} /* operator() - Empty Expression */

@@ -137,10 +137,10 @@ void Tokenizer::scan_token() {
             add_token(match_token('=') ? EQUAL_EQUAL : EQUAL);
             break;
         case '<':
-            add_token(match_token('=') ? GREATER_THAN_EQUAL : EQUAL);
+            add_token(match_token('=') ? LESS_THAN_EQUAL : EQUAL);
             break;
         case '>':
-            add_token(match_token('=') ? LESS_THAN_EQUAL : EQUAL);
+            add_token(match_token('=') ? GREATER_THAN_EQUAL : EQUAL);
             break;
         case '/':
             if (match_token('/')) {
@@ -186,7 +186,9 @@ void Tokenizer::scan_token() {
             // making cases for them would be quite erm annoying
             if (is_digit(c)) {
                 read_num();
-                add_token(NUMBER, src.substr(start, cur - start));
+                std::string num_str = src.substr(start, cur - start);
+                double num_value = std::stod(num_str);
+                add_token(NUMBER, num_value);
             } else if (is_alpha(c)) {
                 read_identifier();
                 std::string token = src.substr(start, cur - start);

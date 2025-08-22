@@ -1,4 +1,5 @@
 #include "../includes/error.hpp"
+#include "../includes/interpreter.hpp"
 #include "../includes/parser.hpp"
 #include "../includes/tokenizer.hpp"
 
@@ -29,6 +30,17 @@ void runFile(std::string path) {
     if (!parser.had_error) {
         std::cout << "YAY" << std::endl;
     }
+
+    Interpreter interpreter;
+    object_literal result = interpreter.evaluate(expression);
+
+    std::visit(overloaded{[](double d) { std::cout << d; },
+                          [](const std::string &s) { std::cout << s; },
+                          [](bool b) { std::cout << (b ? "true" : "false"); },
+                          [](std::monostate) { std::cout << "null"; }},
+               result);
+
+    std::cout << std::endl;
 }
 
 int main(int argc, char *argv[]) {
