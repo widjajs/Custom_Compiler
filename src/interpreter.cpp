@@ -1,6 +1,8 @@
 #include "../includes/interpreter.hpp"
 #include "../includes/error.hpp"
 
+#include <iostream>
+
 object_literal Interpreter::evaluate(Expr &expr) {
     return std::visit(*this, expr);
 } /* evaluate() */
@@ -141,27 +143,28 @@ object_literal Interpreter::operator()(std::unique_ptr<Unary> &expr) {
     return std::visit(
         overloaded{
             // negating doubles
-            [&](double right) -> object_literal {
+            [&](double value) -> object_literal {
                 switch (expr->op.type) {
                     case MINUS:
-                        return -right;
+                        return -value;
                     default:
-                        report_expr(expr->op.line, "Invalid operand");
+                        std::cout << expr->op.type << std::endl;
+                        report_expr(expr->op.line, "Invalid operand for negation");
                         return std::monostate();
                 }
             },
             // negating boolean
-            [&](bool right) -> object_literal {
+            [&](bool value) -> object_literal {
                 switch (expr->op.type) {
                     case NOT:
-                        return !right;
+                        return !value;
                     default:
                         report_expr(expr->op.line, "Invalid operand");
                         return std::monostate();
                 }
             },
             // throw error invalid unary expression
-            [&](auto right) -> object_literal {
+            [&](auto value) -> object_literal {
                 report_expr(expr->op.line, "Invalid Unary Expresion");
                 return std::monostate();
             }},

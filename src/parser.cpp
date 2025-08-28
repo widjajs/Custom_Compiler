@@ -79,8 +79,11 @@ Expr Parser::primary() {
 Expr Parser::unary() {
     // unary → ( "!" | "-" ) unary | primary
     if (match({NOT, MINUS})) {
-        return std::make_unique<Unary>(std::move(prev()), std::move(unary()));
+        Token op = prev();
+        Expr right = unary();
+        return std::make_unique<Unary>(op, std::move(right));
     }
+
     return primary();
 } /* unary() */
 
