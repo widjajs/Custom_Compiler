@@ -67,3 +67,5 @@ Then run:
 ```bash
 ./main <file_name.txt>
 ```
+
+Note: debug flags for assembly and bytecode output can be enabled in utility.h
