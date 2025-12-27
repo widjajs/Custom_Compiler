@@ -58,11 +58,8 @@ Additional features such as scoped variables and looping constructs (`while`, `f
 
 This project includes a `build.sh` script that handles compilation.
 
-From the project root, run:
+If this is this first time you are building make sure to allow permission for running the build script using:
 
-```bash
-chmod +x build.sh
-```
 To build:
 ```bash
 ./build.sh
@@ -74,3 +71,7 @@ You're all set! Run the following to execute any Glide code
 ```
 
 Note: debug flags for assembly and bytecode output can be enabled in utility.h
+Note: If you are getting "permission denied" errors when running ```bash build.sh```, allow permission by running:
+```bash
+chmod +x build.sh
+```
