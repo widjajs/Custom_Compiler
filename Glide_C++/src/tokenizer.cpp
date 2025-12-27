@@ -98,6 +98,7 @@ void Tokenizer::read_identifier() {
 } /* read_identifier() */
 
 void Tokenizer::scan_token() {
+    // TODO: add ||, && logic
     char c = consume();
     switch (c) {
         case '(':

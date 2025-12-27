@@ -15,8 +15,7 @@ void report_args(std::string msg, int extra_args) {
 }
 
 void report_expr(int line, std::string msg) {
-    std::cerr << "Expression Error on line " << line << ": " << msg
-              << std::endl;
+    std::cerr << "Expression Error on line " << line << ": " << msg << std::endl;
 }
 
 void report_expr(std::string msg) {

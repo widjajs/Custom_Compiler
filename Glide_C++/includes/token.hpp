@@ -73,8 +73,7 @@ public:
 
     // constructor
     Token(token_type type, std::string token, object_literal literal, int line)
-        : type(type), token(std::move(token)), literal(std::move(literal)),
-          line(line) {};
+        : type(type), token(std::move(token)), literal(std::move(literal)), line(line) {};
 
     // check the type and return the oject literal in it's "true" form
     std::string get_literal(object_literal value) {
@@ -96,8 +95,7 @@ public:
 
     std::string to_string() {
         std::stringstream output;
-        output << "type: " << type << ", token: " << token
-               << ", literal: " << get_literal(literal);
+        output << "type: " << type << ", token: " << token << ", literal: " << get_literal(literal);
         return output.str();
     }
 };
