@@ -62,3 +62,8 @@ From the project root, run:
 
 ```bash
 chmod +x build.sh
+```
+Then run:
+```bash
+./main <file_name.txt>
+```
