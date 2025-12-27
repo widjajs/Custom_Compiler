@@ -1,4 +1,4 @@
-# Custom Interpreter
+# Custom Interpreter: Glide
 
 A simple interpreter implemented in **C**, inspired by  
 **_Crafting Interpreters_** by Robert Nystrom.
@@ -63,7 +63,12 @@ From the project root, run:
 ```bash
 chmod +x build.sh
 ```
-Then run:
+To build:
+```bash
+./build.sh
+```
+
+You're all set! Run the following to execute any Glide code
 ```bash
 ./main <file_name.txt>
 ```
