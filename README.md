@@ -1,23 +1,64 @@
 # Custom Interpreter
 
-A simple interpreter implemented in C, inspired by **Crafting Interpreters** by Robert Nystrom.
+A simple interpreter implemented in **C**, inspired by  
+**_Crafting Interpreters_** by Robert Nystrom.
+
+This project extends the core ideas from the book by adding variable scoping and loop constructs, while retaining a bytecode-based virtual machine architecture.
+
+---
+
 ## Features
+
 - **Arithmetic operations**: `+`, `-`, `*`, `/`
 - **Unary operations**: `-` (negation)
 - **Grouping**: Parentheses for explicit precedence
 - **String operations**: concatenation and comparison
-- **Variable Declaration & Use**: dynamically cast variables with scope capability.
-- **Debugging**: Includes flags for dissasembly and stack trace
+- **Variables**:
+  - Dynamic typing
+  - Variable declaration and usage
+  - Lexical scoping
+- **Control Flow**:
+  - `if` statements
+  - `while` loops
+  - `for` loops
 - **Printing**
+- **Debugging support**:
+  - Bytecode disassembly
+  - Stack trace output (via debug flags)
 
-## Implementation
-The evaluator follows the design patterns from *Crafting Interpreters*, including:
-- A scanner for tokenizing input
-- A "virtual machine" to execute byte instructions
-- Vaughan Pratt’s “top-down operator precedence parsing
+---
 
-## Instructions to Run
-- Download this repository
-- Run make and verify that everything built properly by inspecting the build directory
-- Run ./main *<test_file_name>* 
-- Debug flags are set in the *utility.h* file
+## Implementation Overview
+
+The interpreter closely follows the design patterns described in *Crafting Interpreters*, including:
+
+- A **scanner (lexer)** for tokenizing input source code
+- A **bytecode virtual machine** for execution
+- **Pratt parsing** (Vaughan Pratt’s top-down operator precedence parser)
+- A **stack-based VM** with dynamically typed values
+- **Variable declaration and scope management**
+- Control-flow constructs implemented at the bytecode level
+
+Additional features such as scoped variables and looping constructs (`while`, `for`) were implemented based on later chapters of the book.
+
+---
+
+## Building and Running
+
+### Prerequisites
+
+- Unix-like environment (Linux or macOS)
+- `gcc` or `clang`
+- `make`
+- `bash`
+
+---
+
+### Build
+
+This project includes a `build.sh` script that handles compilation.
+
+From the project root, run:
+
+```bash
+chmod +x build.sh
